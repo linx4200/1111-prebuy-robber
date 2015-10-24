@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "1111 pre-buy",
+  "version": "0.1",
+
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [{
+    "matches": ["*://*.tmall.hk/*", "*://*.tmall.com/*"],
+    "js": ["content.js"]
+  }],
+  "browser_action": {
+    "default_title": "Test Extension"
+  },
+
+  "permissions": [
+    "tabs", "*://*.tmall.hk/*", "*://*.tmall.com/*"
+  ]
+}
