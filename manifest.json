@@ -12,7 +12,8 @@
     "js": ["content.js"]
   }],
   "browser_action": {
-    "default_title": "Test Extension"
+    "default_title": "Test Extension",
+    "default_icon": "icon.png"
   },
 
   "permissions": [
