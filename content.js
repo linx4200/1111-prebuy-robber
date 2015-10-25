@@ -17,7 +17,6 @@ function injectFunc() {
 }
 
 function getInitItemDetail(d){
-  // if (!id) return;
   try{
     var url='//mdskip.taobao.com/core/initItemDetail.htm?isAreaSell=false&showShopProm=false&sellerPreview=false&household=false&isUseInventoryCenter=false&progressiveSupport=false&queryMemberRight=true&isRegionLevel=false&cartEnable=false&isApparel=false&service3C=false&isSecKill=false&tryBeforeBuy=false&addressLevel=2&offlineShop=false&isForbidBuyItem=false&tmallBuySupport=true';
     // 修改了 callback 的函数为自己注入的函数
@@ -51,12 +50,14 @@ window.addEventListener("message", function(event) {
       // 获取开卖时间
       checkTime(v.defaultModel.tradeResult.startTime);
     } else {
-      alert('获取开卖时间失败');
+      console.log('获取开卖时间失败');
+      location.reload();
     }
     if (checkInventoryFlag && v.defaultModel && v.defaultModel.inventoryDO && v.defaultModel.inventoryDO.icTotalQuantity) {
       checkInventory(v.defaultModel.inventoryDO.icTotalQuantity);
     } else {
-      alert('获取库存失败');
+      console.log('获取库存失败');
+      location.reload();
     }
   }
 }, false);
@@ -68,7 +69,7 @@ function sleep(sleepTime) {
 function checkTime(t) {
   while(t - (+new Date()) >= 750) {  // 提前重新加载
     console.log(t - (+new Date()));
-    sleep(500);
+    sleep(300);
   }
 
   if (t - (+new Date()) >= -5000) {
@@ -110,11 +111,13 @@ if (href.search('world.tmall.com/item/') >= 0 || href.search('detail.tmall.com/i
   if (document.getElementById('LineZing')) {
     id = document.getElementById('LineZing').getAttribute('itemid');
   } else {
-    alert('获取商品 ID 失败');
+    console.log('获取商品 ID 失败');
+    location.reload();
   }
 
   if (!id) {
-    alert('获取商品 ID 失败');
+    console.log('获取商品 ID 失败');
+    location.reload();
   }
 
   setTimeout(function () {
