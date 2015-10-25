@@ -1,3 +1,7 @@
+var id;
+var checkTimeFlag = true;
+var checkInventoryFlag = false;
+
 function triggerMouseEvent(a,c) {
   var b = document.createEvent("MouseEvents");
   b.initEvent(c,!0,!0);
@@ -12,8 +16,8 @@ function injectFunc() {
   document.head.appendChild(elt);
 }
 
-function getInitItemDetail(d, id){
-  if (!id) return;
+function getInitItemDetail(d){
+  // if (!id) return;
   try{
     var url='//mdskip.taobao.com/core/initItemDetail.htm?isAreaSell=false&showShopProm=false&sellerPreview=false&household=false&isUseInventoryCenter=false&progressiveSupport=false&queryMemberRight=true&isRegionLevel=false&cartEnable=false&isApparel=false&service3C=false&isSecKill=false&tryBeforeBuy=false&addressLevel=2&offlineShop=false&isForbidBuyItem=false&tmallBuySupport=true';
     // 修改了 callback 的函数为自己注入的函数
@@ -43,11 +47,16 @@ window.addEventListener("message", function(event) {
 
   if (event.data.type && (event.data.type == "FROM_PAGE")) {
     var v = event.data.value;
-    if (v.defaultModel && v.defaultModel.tradeResult && v.defaultModel.tradeResult.startTime) {
+    if (checkTimeFlag && v.defaultModel && v.defaultModel.tradeResult && v.defaultModel.tradeResult.startTime) {
       // 获取开卖时间
       checkTime(v.defaultModel.tradeResult.startTime);
     } else {
       alert('获取开卖时间失败');
+    }
+    if (checkInventoryFlag && v.defaultModel && v.defaultModel.inventoryDO && v.defaultModel.inventoryDO.icTotalQuantity) {
+      checkInventory(v.defaultModel.inventoryDO.icTotalQuantity);
+    } else {
+      alert('获取库存失败');
     }
   }
 }, false);
@@ -56,10 +65,32 @@ function sleep(sleepTime) {
   for(var start = Date.now(); Date.now() - start <= sleepTime;) { }
 }
 
-function checkTime (t) {
+function checkTime(t) {
   while(t - (+new Date()) >= 750) {  // 提前重新加载
     console.log(t - (+new Date()));
     sleep(500);
+  }
+
+  if (t - (+new Date()) >= -5000) {
+    // 5秒之内开枪
+    location.reload();
+  } else {
+    // 查库存
+    getInventory();
+  }
+}
+
+function getInventory() {
+  checkInventoryFlag = true;
+  checkTimeFlag = false;
+  console.log('getInventory');
+  getInitItemDetail(document);
+}
+
+function checkInventory(v) {
+  while (v <= 0) {
+    sleep(500);
+    getInventory();
   }
   location.reload();
 }
@@ -76,7 +107,6 @@ if (href.search('world.tmall.com/item/') >= 0 || href.search('detail.tmall.com/i
   buy();
 
   // 先获取商品 id
-  var id;
   if (document.getElementById('LineZing')) {
     id = document.getElementById('LineZing').getAttribute('itemid');
   } else {
