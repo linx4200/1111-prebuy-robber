@@ -52,15 +52,16 @@ window.addEventListener("message", function(event) {
   }
 }, false);
 
+function sleep(sleepTime) {
+  for(var start = Date.now(); Date.now() - start <= sleepTime;) { }
+}
+
 function checkTime (t) {
-  if (t - (+new Date()) <= 0) {
-    buy();
+  while(t - (+new Date()) >= 750) {  // 提前重新加载
+    console.log(t - (+new Date()));
+    sleep(500);
   }
-  if (t - (+new Date()) <= 750) {  // 提前重新加载
-    location.reload();
-  } else {
-    checkTime(t);
-  }
+  location.reload();
 }
 
 function buy() {
