@@ -126,7 +126,7 @@ if (href.search('world.tmall.com/item/') >= 0 || href.search('detail.tmall.com/i
   }, 1000);
 }
 
-if (href.search('buy.tmall.com') >= 0 || href.search('buy.tmall.hk')) {
+if (href.search('buy.tmall.com') >= 0 || href.search('buy.tmall.hk') >= 0) {
   var timer1 = setInterval(function() {
     if (document.getElementById('J_AgreePrePay')) {
       document.getElementById('J_AgreePrePay').click();
@@ -138,6 +138,14 @@ if (href.search('buy.tmall.com') >= 0 || href.search('buy.tmall.hk')) {
         triggerMouseEvent(a,"mouseup");
         triggerMouseEvent(a,"click");
       }
+      if (document.querySelector('[id^=checkCode_]')) {
+        var codeIpt = document.querySelector('[id^=checkCode_]');
+        codeIpt.focus();
+        setTimeout(function () {
+          codeIpt.scrollIntoView();
+        }, 800);
+      }
     }
+
   }, 400);
 }
