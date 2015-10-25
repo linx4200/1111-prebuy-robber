@@ -49,15 +49,11 @@ window.addEventListener("message", function(event) {
     if (checkTimeFlag && v.defaultModel && v.defaultModel.tradeResult && v.defaultModel.tradeResult.startTime) {
       // 获取开卖时间
       checkTime(v.defaultModel.tradeResult.startTime);
-    } else {
-      console.log('获取开卖时间失败');
-      location.reload();
-    }
-    if (checkInventoryFlag && v.defaultModel && v.defaultModel.inventoryDO && v.defaultModel.inventoryDO.icTotalQuantity) {
+    } else if (checkInventoryFlag && v.defaultModel && v.defaultModel.inventoryDO && v.defaultModel.inventoryDO.icTotalQuantity) {
+      // 查询库存
       checkInventory(v.defaultModel.inventoryDO.icTotalQuantity);
     } else {
-      console.log('获取库存失败');
-      location.reload();
+      console.log('initItemDetail failed!');
     }
   }
 }, false);

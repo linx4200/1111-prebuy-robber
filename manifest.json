@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "1111 pre-buy",
-  "version": "0.2",
+  "version": "0.2.1",
 
   "background": {
     "persistent": false,
