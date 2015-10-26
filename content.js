@@ -63,7 +63,7 @@ function sleep(sleepTime) {
 }
 
 function checkTime(t) {
-  while(t - (+new Date()) >= 750) {  // 提前重新加载
+  while(t - (+new Date()) >= 250) {  // 提前重新加载
     console.log(t - (+new Date()));
     sleep(300);
   }
